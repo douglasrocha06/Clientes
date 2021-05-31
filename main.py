@@ -43,7 +43,7 @@ def clientes():
 	try:
 		conn = mysql.connect() 
 		cursor = conn.cursor(pymysql.cursors.DictCursor)
-		cursor.execute("SELECT id, nome, cpf, date_format(nascimento, GET_FORMAT(DATE,'EUR')) as 'nascimento', email FROM clientes")
+		cursor.execute("SELECT id, nome, cpf, date_format(nascimento, GET_FORMAT(DATE,'EUR')) as 'nascimento', email FROM api_clientes.clientes")
 		linha = cursor.fetchall() #Retornará todas as linhas do banco de dados 
 		resposta = jsonify(linha) #Formata em JSON
 		resposta.status_code = 200
@@ -61,7 +61,7 @@ def vizualizar_cli(id):
 	try:
 		conn = mysql.connect()
 		cursor = conn.cursor(pymysql.cursors.DictCursor)
-		cursor.execute("SELECT id, nome, cpf, date_format(nascimento, GET_FORMAT(DATE,'EUR')) as 'nascimento', email FROM clientes WHERE id =%s", id)
+		cursor.execute("SELECT id, nome, cpf, date_format(nascimento, GET_FORMAT(DATE,'EUR')) as 'nascimento', email FROM api_clientes.clientes WHERE id =%s", id)
 		linhas = cursor.fetchone() #Retornará apenas uma linha do banco de dados 
 
 		if not linhas:
@@ -87,7 +87,7 @@ def adicionar_cli():
 		nascimento = json['nascimento']
 		email = json['email']
 		if nome and cpf and nascimento and email and request.method == 'POST':			
-			sqlQuery = "INSERT INTO clientes(nome, cpf, nascimento, email) VALUES(%s, %s, %s, %s)"
+			sqlQuery = "INSERT INTO api_clientes.clientes(nome, cpf, nascimento, email) VALUES(%s, %s, %s, %s)"
 			dados = (nome, cpf, nascimento, email)
 			conn = mysql.connect() #Conexão com banco de dados
 			cursor = conn.cursor(pymysql.cursors.DictCursor)
@@ -116,7 +116,7 @@ def atualizar_cli():
 		nascimento = json['nascimento']
 		email = json['email']
 		if nome and cpf and nascimento and email and id and request.method == 'PUT':
-			sqlQuery = "UPDATE clientes SET nome=%s, cpf=%s, nascimento=%s, email=%s WHERE id=%s"
+			sqlQuery = "UPDATE api_clientes.clientes SET nome=%s, cpf=%s, nascimento=%s, email=%s WHERE id=%s"
 			dados = (nome, cpf, nascimento, email, id,)
 			conn = mysql.connect() #Conexão banco de dados 
 			cursor = conn.cursor()
@@ -147,7 +147,7 @@ def deletar_cli(id):
 		if not linha:
 		    return jsonify({'status':'Cliente não cadastrado!'}), 404
 		else:
-			cursor.execute("DELETE FROM clientes WHERE id =%s", (id,))
+			cursor.execute("DELETE FROM api_clientes.clientes WHERE id =%s", (id,))
 			conn.commit()
 			resposta = jsonify({'status':'Cliente deletado com sucesso!'})
 			resposta.status_code = 200
