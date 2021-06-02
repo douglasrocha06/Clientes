@@ -3,38 +3,9 @@ from app import app
 from config import mysql
 from flask import jsonify
 from flask import flash, request
-from endereco import enderecos, vizualizar, adicionar, atualizar, deletar, enderecos_clientes, vizu_end_clientes
 from flask_httpauth import HTTPBasicAuth
 
 auth = HTTPBasicAuth()
-
-#Vizualizar todos clientes e seus endereços cadastrados
-def cli_end():
-	return enderecos_clientes
-
-#Vizualizar todos os endereços cadastrados de um cliente específico
-def vizu_clie_end():
-	return vizu_end_clientes
-
-#Vizualizar todos os endereços
-def end_cadastrados():
-	return enderecos
-
-#Vizualizar um endereço específico
-def vizualizar_end():
-	return vizualizar
-
-#Adicionar um novo endereço
-def adicionar_end():
-	return adicionar
-
-#Atualizar um endereço
-def atualizar_end():
-	return atualizar
-
-#Deletar um endereço
-def deletar_end():
-	return deletar
 
 #Vizualizar todos os clientes
 @app.route('/clientes', methods=['GET'])
